@@ -8,7 +8,7 @@
 
 #include <DHT.h>
 
-//#include <Wire.h>
+
 #include <LiquidCrystal_I2C.h>
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -27,15 +27,15 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 char auth[] = BLYNK_AUTH_TOKEN;
 
-char ssid[] = "";  // type your wifi name
-char pass[] = "";  // type your wifi password
+char ssid[] = "";  
+char pass[] = "";  
 
 BlynkTimer timer;
 
 int gas = A0;
 int sensorThreshold = 100;
 
-#define DHTPIN 2 //Connect Out pin to D2 in NODE MCU
+#define DHTPIN 2 
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -45,7 +45,7 @@ void sendSensor()
 
 
   float h = dht.readHumidity();
-  float t = dht.readTemperature(); // or dht.readTemperature(true) for Fahrenheit
+  float t = dht.readTemperature(); 
 
 
      if (isnan(h) || isnan(t)) {
@@ -56,8 +56,7 @@ void sendSensor()
   Blynk.virtualWrite(V2, analogSensor);
   Serial.print("Gas Value: ");
     Serial.println(analogSensor);
-  // You can send any value at any time.
-  // Please don't send more that 10 values per second.
+
     Blynk.virtualWrite(V0, t);
     Blynk.virtualWrite(V1, h);
 
@@ -73,17 +72,16 @@ void setup()
 
   Serial.begin(115200);
 
- //pinMode(gas, INPUT);
+
   Blynk.begin(auth, ssid, pass);
   dht.begin();
   timer.setInterval(30000L, sendSensor);
 
- //Wire.begin();
+ 
    lcd.begin();
 
 
-//  lcd.backlight();
- // lcd.clear();
+
   lcd.setCursor(3,0);
   lcd.print("Air Quality");
   lcd.setCursor(3,1);
@@ -97,7 +95,7 @@ void loop()
   Blynk.run();
   timer.run();
  float h = dht.readHumidity();
-  float t = dht.readTemperature(); // or dht.readTemperature(true) for Fahrenheit
+  float t = dht.readTemperature(); 
     int gasValue = analogRead(gas);
   lcd.setCursor(0,0);
   lcd.print("Temperature ");
@@ -116,9 +114,7 @@ void loop()
   lcd.print("%");
   delay(4000);
   lcd.clear();
-  //lcd.setCursor(0,0);
- // lcd.print(gasValue);
- // lcd.clear();
+
   if(gasValue<600)
   {
     lcd.setCursor(0,0);
